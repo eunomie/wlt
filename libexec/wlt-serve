@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# Usage: wlt serve
+# Summary: Serve after build
+# Help: Serve compiled version on http://localhost:4000
+
+require 'serve'
+require 'serve/application'
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__),'..', *%w[lib]))
+
+require "wlt.rb"
+
+wlt = Wlt.new true
+wlt.generate
+
+Serve::Application.run ["_site"]

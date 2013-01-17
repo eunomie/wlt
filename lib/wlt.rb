@@ -7,9 +7,10 @@ require 'coffee-script'
 require "contents.rb"
 
 class Wlt
-  def initialize
+  def initialize local = false
     raise "Not a valid Web Log Today location" unless valid_location?
     @config = YAML.load File.read "config.yaml"
+    @config["site_url"] = "http://localhost:4000" if local
   end
 
   def generate
