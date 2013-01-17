@@ -49,7 +49,6 @@ class Wlt
       File.open("_site/#{jsname}.js", "w") { |f| f.write(js) }
       puts "  #{jsname}"
     end
-
   end
 
   private
