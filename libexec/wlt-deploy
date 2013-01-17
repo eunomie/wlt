@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# Usage: wlt deploy
+# Summary: Deploy generated content
+# Help: Generate and deploy content.
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__),'..', *%w[lib]))
+
+require "wlt.rb"
+
+wlt = Wlt.new
+wlt.generate
+wlt.deploy

@@ -70,6 +70,10 @@ class Wlt
     contents.generate
   end
 
+  def deploy
+    sh "rsync --checksum -rtzh --progress --delete _site/ #{@config["deploy_to"]}"
+  end
+
   private
   def valid_location?
     return false unless File.exists? "config.yaml"
