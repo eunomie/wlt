@@ -5,4 +5,10 @@
 
 require 'fileutils'
 
+if Dir.glob("**/*").count > 0
+  puts "Must be run in an empty folder."
+  exit
+end
+
 FileUtils.cp_r File.join(File.dirname(__FILE__), '..', 'share', 'wlt', 'scaffolding', 'full', '.'), '.'
+puts "Don't forget to edit config.yaml"
