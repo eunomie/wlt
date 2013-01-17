@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# Usage: wlt scaffold
+# Summary: Initialize a web log today instance.
+# Help: Initialize an empty directory with a full functionnal example.
+
+require 'fileutils'
+
+FileUtils.cp_r File.join(File.dirname(__FILE__), '..', 'share', 'wlt', 'scaffolding', 'full', '.'), '.'
