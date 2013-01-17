@@ -11,3 +11,4 @@ require "wlt.rb"
 wlt = Wlt.new
 wlt.init
 wlt.css
+wlt.js

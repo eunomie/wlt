@@ -1,6 +1,8 @@
 require "yaml"
 require "fileutils"
 require "sass"
+require 'coffee-script'
+
 
 require "contents.rb"
 
@@ -31,6 +33,23 @@ class Wlt
       File.open("_site/#{cssname}.css", "w") { |f| f.write(css) }
       puts "  #{cssname}"
     end
+  end
+
+  def js
+    return unless @config.has_key? "assets"
+    return unless @config["assets"].has_key? "js"
+    jsconf = @config["assets"]["js"]
+    return unless jsconf.kind_of? Array
+
+    puts "Js"
+    jsconf.each do |jsname|
+      application_js = File.join "_js", "#{jsname}.coffee"
+      next unless File.exists? application_js
+      js = CoffeeScript.compile File.read application_js
+      File.open("_site/#{jsname}.js", "w") { |f| f.write(js) }
+      puts "  #{jsname}"
+    end
+
   end
 
   private
