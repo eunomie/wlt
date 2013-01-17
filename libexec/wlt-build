@@ -9,8 +9,4 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),'..', *%w[lib]))
 require "wlt.rb"
 
 wlt = Wlt.new
-wlt.init
-wlt.css
-wlt.js
-wlt.pub
-wlt.contents
+wlt.generate

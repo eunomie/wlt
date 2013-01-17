@@ -12,6 +12,14 @@ class Wlt
     @config = YAML.load File.read "config.yaml"
   end
 
+  def generate
+    init
+    css
+    js
+    contents
+    pub
+  end
+
   def init
     FileUtils.mkdir_p "_site"
     FileUtils.rm_rf Dir.glob "_site/*"
