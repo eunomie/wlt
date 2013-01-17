@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# Usage: wlt gollum
+# Summary: Run gollum
+# Help: Gollum allow to preview and edit all markdown contents in a web interface.
+
+require 'gollum/frontend/app'
+Precious::App.set :gollum_path, Dir.pwd
+Precious::App.set :default_markup, :markdown
+Precious::App.set :wiki_options, {:universal_toc => false}
+
+puts ""
+puts "Go to http://localhost:4567/pages"
+puts ""
+
+Precious::App.run!
