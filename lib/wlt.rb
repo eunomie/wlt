@@ -16,8 +16,13 @@ class Wlt
   end
 
   def css
+    return unless @config.has_key? "assets"
+    return unless @config["assets"].has_key? "css"
+    cssconf = @config["assets"]["css"]
+    return unless cssconf.kind_of? Array
+
     puts "Css"
-    @config["assets"]["css"].each do |cssname|
+    cssconf.each do |cssname|
       application_css = File.join "_css", "#{cssname}.sass"
       next unless File.exists? application_css
       sassengine = Sass::Engine.for_file(application_css, :syntax => :sass, :style => :compressed)
