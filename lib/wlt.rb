@@ -56,6 +56,11 @@ class Wlt
     puts "Pub"
   end
 
+  def contents
+    contents = Contents.new @config
+    contents.generate
+  end
+
   private
   def valid_location?
     return false unless File.exists? "config.yaml"
