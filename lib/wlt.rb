@@ -51,6 +51,11 @@ class Wlt
     end
   end
 
+  def pub
+    FileUtils.cp_r File.join('_pub', '.') , '_site'
+    puts "Pub"
+  end
+
   private
   def valid_location?
     return false unless File.exists? "config.yaml"

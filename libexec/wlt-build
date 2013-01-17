@@ -12,3 +12,4 @@ wlt = Wlt.new
 wlt.init
 wlt.css
 wlt.js
+wlt.pub
