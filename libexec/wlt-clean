@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# Usage: wlt clean
+# Summary: Clean site
+# Help: This will clean the _site directory.
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__),'..', *%w[lib]))
+
+require "wlt.rb"
+
+wlt = Wlt.new
+wlt.init

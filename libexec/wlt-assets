@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# Usage: wlt assets
+# Summary: Build assets.
+# Help: This will build the assets (js, css, pub)
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__),'..', *%w[lib]))
+
+require "wlt.rb"
+
+wlt = Wlt.new
+wlt.css
+wlt.js
+wlt.pub
