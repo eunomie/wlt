@@ -4,28 +4,10 @@
 # Help: This will clean the _site directory
 # and generate all content inside it.
 
-require 'yaml'
-require 'fileutils'
-require 'sass'
-
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),'..', *%w[lib]))
 
-require "contents.rb"
+require "wlt.rb"
 
-config = YAML.load File.read "config.yaml"
-
-# Init
-FileUtils.mkdir_p "_site"
-FileUtils.rm_rf Dir.glob "_site/*"
-
-# Css
-puts "Css"
-config["assets"]["css"].each do |cssname|
-  application_css = File.join "_css", "#{cssname}.sass"
-  next unless File.exists? application_css
-  sassengine = Sass::Engine.for_file(application_css, :syntax => :sass, :style => :compressed)
-  css = sassengine.render
-
-  File.open("_site/#{cssname}.css", "w") { |f| f.write(css) }
-  puts "  #{cssname}"
-end
+wlt = Wlt.new
+wlt.init
+wlt.css
