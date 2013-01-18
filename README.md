@@ -38,7 +38,17 @@ You need git and ruby (only tested with 1.9.3) and [bundler][].
 git pull && bundle
 ```
 
+## Branches
+
+After the first release, the `master` branch will be a stable branch that can be deployed at every moment.
+
+All work will be done in feature branches, without a `dev/devel/develop` branch.
+
 ## Usage
+
+## Contributing
+
+Don't hesitate to fill issues or submit pull requests `;-)`
 
 [sub]: https://github.com/37signals/sub
 [bundler]: http://gembundler.com/
