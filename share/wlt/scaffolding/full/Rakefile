@@ -6,7 +6,7 @@ config = YAML.load File.read "config.yaml"
 
 desc 'Build _site content (all content, default task)'
 task :build do
-  `wlt build`
+  sh "wlt build"
 end
 
 desc 'Build site and deploy'
