@@ -1,1 +1,1 @@
-Sitemap: http://log.winsos.net/sitemap.xml
+Sitemap: http://local.host/sitemap.xml
