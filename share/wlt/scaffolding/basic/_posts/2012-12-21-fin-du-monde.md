@@ -5,7 +5,7 @@ title: Fin du monde
 author: Plop
 ---
 
-# Fin du monde
+## Fin du monde
 
 Et oui, le monde est fini !
 
