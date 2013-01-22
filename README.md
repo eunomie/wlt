@@ -46,6 +46,24 @@ All work will be done in feature branches, without a `dev/devel/develop` branch.
 
 ## Usage
 
+The easiest way to start is to use one of the two scaffolding included, basic or full.
+
+```sh
+wlt scaffold basic
+```
+
+or
+
+```sh
+wlt scaffold full
+```
+
+After that, just run the local server, browse http://localhost:4000 and enjoy!
+
+```sh
+wlt serve
+```
+
 ## Contributing
 
 Don't hesitate to fill issues or submit pull requests `;-)`
