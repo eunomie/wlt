@@ -1,0 +1,32 @@
+!!! 5
+%html(lang="en" itemscope itemtype="http://schema.org/Article")
+  %head
+    = render :partial => "header"
+
+  %body
+    %section.main
+      %article
+        %header
+          %h1= title
+
+          %h4
+            Par
+            = author
+            - if @contents.account? "twitter"
+              %a.icon-twitter-sign.color.alone(href="#{@contents.account "twitter"}")
+            - if @contents.account? "gplus"
+              %a.icon-google-plus-sign.color.alone(href="#{@contents.account "gplus"}?rel=author")
+            , le
+            = formated_date
+            dans
+
+            %ul.tags
+              - tags.each do |tag|
+                %li
+                  %a.icon-tag{:href => link_to("tags/#{tag}")}
+                    = tag
+
+          - if gravatar?
+            %img(src=gravatar alt=author)
+
+        = content

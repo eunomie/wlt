@@ -1,0 +1,23 @@
+!!! 5
+%html(lang="en")
+  %head
+    = render :partial => "header"
+
+  %body
+    %section.main
+      %article
+        = content
+
+        %ul
+          - posts = @contents.list
+          - posts.each do |post|
+            %li
+              %span
+                = post.date.strftime "%F"
+              = ":"
+              %a{:href => link_to(post.url)}
+                = post.title
+              - if post.description?
+                %blockquote= post.description
+              - else
+                %blockquote= post.excerpt(true)
