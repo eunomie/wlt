@@ -19,3 +19,5 @@
 %meta(itemprop="description" content=description)
 %link{:rel => "icon", :href => link_to("favicon.ico")}
 %link{:rel => "stylesheet", :type => "text/css", :href => link_to("application.css")}
+/[if lt IE 9]
+  %script(src="//html5shim.googlecode.com/svn/trunk/html5.js")

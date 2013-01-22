@@ -5,7 +5,7 @@ body
 
   > header
     text-align: center
-    > ul
+    > nav > ul
       -webkit-padding-start: 0px
       a
         border-bottom: 0 !important
@@ -25,24 +25,26 @@ ul.post-list, ul.post-list ul
     display: inline-block
     min-width: 5em
 .main
-  > header
-    ul.tags
-      list-style-type: none
-      display: inline
-      -webkit-padding-start: 0px
-      li
-        display: inline-block
-        a
-          border-bottom: none
-          padding: 0 0.5em
-    img
-      float: right
-      position: relative
-      top: -60px
-
   article
     margin-top: 2em
     margin-bottom: 1em
+
+    header
+      ul.tags
+        list-style-type: none
+        display: inline
+        -webkit-padding-start: 0px
+        li
+          display: inline-block
+          a
+            border-bottom: none
+            padding: 0 0.5em
+      img
+        float: right
+        position: relative
+        top: -60px
+        margin-left: 0.5em
+        margin-bottom: 0.5em
 
   > footer
     text-align: right
