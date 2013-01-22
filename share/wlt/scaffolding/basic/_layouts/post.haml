@@ -18,13 +18,6 @@
               %a.icon-google-plus-sign.color.alone(href="#{@contents.account "gplus"}?rel=author")
             , le
             = formated_date
-            dans
-
-            %ul.tags
-              - tags.each do |tag|
-                %li
-                  %a.icon-tag{:href => link_to("tags/#{tag}")}
-                    = tag
 
           - if gravatar?
             %img(src=gravatar alt=author)
