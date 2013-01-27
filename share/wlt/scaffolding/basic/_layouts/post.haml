@@ -7,19 +7,19 @@
     %section.main
       %article
         %header
-          %h1= title
+          %h1= @scope.title
 
           %h4
             Par
-            = author
+            = @scope.author
             - if @contents.account? "twitter"
               %a.icon-twitter-sign.color.alone(href="#{@contents.account "twitter"}")
             - if @contents.account? "gplus"
               %a.icon-google-plus-sign.color.alone(href="#{@contents.account "gplus"}?rel=author")
             , le
-            = formated_date
+            = @scope.formated_date
 
-          - if gravatar?
-            %img(src=gravatar alt=author)
+          - if @scope.gravatar?
+            %img{:src => @scope.gravatar, :alt => @scope.author}
 
         = content

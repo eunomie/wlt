@@ -4,17 +4,17 @@ layout: master
 
 %article
   %header
-    %h1= title
+    %h1= @scope.title
 
     %h4
       Par
-      = author
+      = @scope.author
       - if @contents.account? "twitter"
         %a.icon-twitter-sign.color.alone(href="#{@contents.account "twitter"}")
       - if @contents.account? "gplus"
         %a.icon-google-plus-sign.color.alone(href="#{@contents.account "gplus"}?rel=author")
       , le
-      = formated_date
+      = @scope.formated_date
       dans
 
       %ul.tags
@@ -23,8 +23,8 @@ layout: master
             %a.icon-tag{:href => link_to("tags/#{tag}")}
               = tag
 
-    - if gravatar?
-      %img.pola(src=gravatar alt=author)
+    - if @scope.gravatar?
+      %img.pola{:src => @scope.gravatar, :alt => @scope.author}
 
   = content
 
