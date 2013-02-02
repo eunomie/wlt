@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
-# Usage: wlt serve
+# Usage: wlt serve [all]
 # Summary: Serve after build
 # Help: Serve compiled version on http://localhost:4000
+#
+# You can pass an "all" flag to generate all content,
+# without reading the published state.
 
 require 'serve'
 require 'serve/application'
@@ -10,7 +13,10 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),'..', *%w[lib]))
 
 require "wlt.rb"
 
+all = ARGV[0] == "all"
+
+
 wlt = Wlt.new true
-wlt.generate
+wlt.generate all
 
 Serve::Application.run ["_site"]

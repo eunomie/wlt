@@ -66,12 +66,12 @@ class Contents < ContentAccess
     @urls = Array.new
   end
 
-  def generate
+  def generate all
     puts "Posts"
     @files.each do |name|
       content = PostContent.new name, self
       print "  #{name}"
-      if content.published
+      if content.published || all
         puts ""
         content.tags.each do |tag|
           if !@tags.has_key? tag
@@ -91,7 +91,7 @@ class Contents < ContentAccess
     Dir.glob(File.join("_pages", MdContent.glob)).sort!.each do |name|
       content = MdContent.new name, self
       print "  #{name}"
-      if content.published
+      if content.published || all
         puts ""
         content.write_to_site
         @urls.push content.url

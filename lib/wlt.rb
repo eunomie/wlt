@@ -13,11 +13,11 @@ class Wlt
     @config["site_url"] = "http://localhost:4000" if local
   end
 
-  def generate
+  def generate all = false
     init
     css
     js
-    contents
+    contents all
     pub
   end
 
@@ -65,9 +65,9 @@ class Wlt
     puts "Pub"
   end
 
-  def contents
+  def contents all
     contents = Contents.new @config
-    contents.generate
+    contents.generate all
   end
 
   def deploy

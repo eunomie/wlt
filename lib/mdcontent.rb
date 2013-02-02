@@ -20,7 +20,6 @@ class MdContent < Content
   MATCHER = /^(.+\/)*(\d+-\d+-\d+)?-?(.*)(\.[^.]+)$/
 
   def write_to_site
-    return unless published
     out = File.join "_site", url
     FileUtils.mkdir_p File.dirname out
     write_to out
