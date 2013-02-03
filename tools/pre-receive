@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+
+source ~/.bash_profile
+
+FULL_GIT_DIR=$(cd "$GIT_DIR" && /bin/pwd || "$GIT_DIR")
+
+SCRATCH_DIR=$HOME/autobuild/scratch
+GIT_DIR_NAME=$(basename $FULL_GIT_DIR)
+GIT_DIR_NAME=${GIT_DIR_NAME%.*}
+echo "-----> $GIT_DIR_NAME app."
+while read OLDREV NEWREV REF
+do
+    if [ "$REF" != "refs/heads/master" ]; then
+        echo "$REF is not master"
+        continue
+    fi
+    rm -rf $SCRATCH_DIR/$GIT_DIR_NAME 
+    mkdir -p $SCRATCH_DIR/$GIT_DIR_NAME
+    GIT_WORK_TREE=$SCRATCH_DIR/$GIT_DIR_NAME git checkout -f $NEWREV &> /dev/null
+    cd $SCRATCH_DIR/$GIT_DIR_NAME && bundle exec rake deploylocal
+done
+echo "-----> Deploy OK"
+# Very important to return 0 for the new revision to be accepted
+exit 0
