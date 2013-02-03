@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "yaml"
 require "fileutils"
 require "sass"
@@ -9,7 +10,7 @@ require "contents.rb"
 class Wlt
   def initialize local = false
     raise "Not a valid Web Log Today location" unless valid_location?
-    @config = YAML.load File.read "config.yaml"
+    @config = YAML.load File.open("config.yaml", "r:utf-8").read
     @config["site_url"] = "http://localhost:4000" if local
   end
 
@@ -54,7 +55,7 @@ class Wlt
     jsconf.each do |jsname|
       application_js = File.join "_js", "#{jsname}.coffee"
       next unless File.exists? application_js
-      js = CoffeeScript.compile File.read application_js
+      js = CoffeeScript.compile File.open(application_js, "r:utf-8").read
       File.open("_site/#{jsname}.js", "w") { |f| f.write(js) }
       puts "  #{jsname}"
     end

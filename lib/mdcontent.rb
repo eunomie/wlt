@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "hamlcontent.rb"
 require 'redcarpet'
 require 'pygments'
@@ -34,7 +35,7 @@ class MdContent < Content
     commentsfile = File.join "_comments", File.basename(@name)
     return "" unless File.exists? commentsfile
     markdown = Redcarpet::Markdown.new(HTMLwithPygments, :with_toc_data => true, :fenced_code_blocks => true, :strikethrough => true, :autolink => true, :no_intra_emphasis => true, :tables => true)
-    markdown.render File.read commentsfile
+    markdown.render File.open(commentsfile, "r:utf-8").read
   end
 
   def excerpt striphtml = false
@@ -62,7 +63,7 @@ class MdContent < Content
 
     raise "File #{@name} is not a valid file name" unless valid?
 
-    @plain_content = File.read @name
+    @plain_content = File.open(@name, "r:utf-8").read
     begin
       if @plain_content =~ /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
         @plain_content = $'

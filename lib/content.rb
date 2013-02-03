@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'haml'
 require 'digest/md5'
 

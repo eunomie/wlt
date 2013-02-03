@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "postcontent.rb"
 require "mdcontent.rb"
 

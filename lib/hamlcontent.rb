@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "content.rb"
 require 'yaml'
 
@@ -25,7 +26,7 @@ class HamlContent < Content
 
     raise "File #{@name} is not a valid file name" unless valid?
 
-    @plain_content = File.read @name
+    @plain_content = File.open(@name, "r:utf-8").read
     begin
       if @plain_content =~ /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
         @plain_content = $'
