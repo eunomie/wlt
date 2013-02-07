@@ -17,6 +17,11 @@
 %meta(name="twitter:description" content=description)
 %meta(name="og:description" content=description)
 %meta(itemprop="description" content=description)
+- if @scope.image?
+  - image = link_to @scope.image
+  %meta(name="twitter:image" content=image)
+  %meta(name="og:image" content=image)
+  %meta(itemprop="image" content=image)
 %link{:rel => "icon", :href => link_to("favicon.ico")}
 %link{:rel => "stylesheet", :type => "text/css", :href => link_to("application.css")}
 /[if lt IE 9]
