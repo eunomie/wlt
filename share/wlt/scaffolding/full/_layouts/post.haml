@@ -26,7 +26,8 @@ layout: master
     - if @scope.gravatar?
       %img.pola{:src => @scope.gravatar, :alt => @scope.author}
 
-  = content
+  %div(itemprop="articleBody")
+    = content
 
   %footer
     = render :partial => "twitter_share_account"
