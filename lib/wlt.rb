@@ -11,6 +11,7 @@ class Wlt
   def initialize local = false
     raise "Not a valid Web Log Today location" unless valid_location?
     @config = YAML.load File.open("config.yaml", "r:utf-8").read
+    @config["__site_url__"] = @config["site_url"]
     @config["site_url"] = "http://localhost:4000" if local
   end
 
