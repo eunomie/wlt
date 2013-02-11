@@ -25,4 +25,15 @@ class PostContent < MdContent
   def formated_date
     @date.strftime("%d/%m/%Y")
   end
+
+  protected
+
+  def read_comments
+    cleanurl = @contents.config["__site_url__"].gsub('http://', '').gsub('https://', '')
+    cleanfilename = File.basename(@name, ".md")
+    glob = File.join("_comments", cleanurl, cleanfilename, "*.md")
+    comment_files = Dir.glob(glob).sort.each do |file|
+      @comments.push Comment.new file
+    end
+  end
 end

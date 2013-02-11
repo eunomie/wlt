@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'haml'
 require 'digest/md5'
+require "comment.rb"
 
 class Content
   def initialize(name, contents)
@@ -14,8 +15,10 @@ class Content
     @scope = self
     @locals = {}
     @url = ""
+    @comments = []
 
     read
+    read_comments
   end
 
   def link_to absolute_url = "", ext = "html"
@@ -42,6 +45,14 @@ class Content
 
   def name
     @name
+  end
+
+  def comments?
+    @comments.size > 0
+  end
+
+  def comments
+    @comments
   end
 
   def plain_content
@@ -94,5 +105,8 @@ class Content
   end
 
   def read
+  end
+
+  def read_comments
   end
 end

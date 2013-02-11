@@ -31,13 +31,6 @@ class MdContent < Content
     markdown.render @plain_content
   end
 
-  def comments
-    commentsfile = File.join "_comments", File.basename(@name)
-    return "" unless File.exists? commentsfile
-    markdown = Redcarpet::Markdown.new(HTMLwithPygments, :with_toc_data => true, :fenced_code_blocks => true, :strikethrough => true, :autolink => true, :no_intra_emphasis => true, :tables => true)
-    markdown.render File.open(commentsfile, "r:utf-8").read
-  end
-
   def excerpt striphtml = false
     truncate = HTML_Truncator.truncate content, 30
     truncate.gsub!(/<[^>]+>/, '') if striphtml
