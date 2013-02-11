@@ -23,11 +23,34 @@ layout: master
             %a.icon-tag{:href => link_to("tags/#{tag}")}
               = tag
 
+    - if @scope.comments?
+      %h5
+        %a(href="#comments")
+          = "(#{@scope.comments.size} commentaire#{if @scope.comments.size > 1 then "s" end})"
+
+
     - if @scope.gravatar?
       %img.pola{:src => @scope.gravatar, :alt => @scope.author}
 
   %div(itemprop="articleBody")
     = content
+
+  - if @scope.comments?
+    %h2
+      %a#comments
+        Commentaires
+    - @scope.comments.each do |comment|
+      %article
+        %header
+          %h3= comment.title
+          %h4
+            Par
+            %a{:href => comment.website, :rel => "nofollow"}
+              = comment.author
+            , le
+            = comment.date
+
+          = comment.content
 
   %footer
     = render :partial => "twitter_share_account"
