@@ -11,7 +11,7 @@ You need git and ruby (only tested with 1.9.3) and [bundler][].
 1. Get the sources
 
     ```sh
-    git clone git://github.com/CrEv/wlt.git
+    git clone git://github.com/eunomie/wlt.git
     ```
 2. Run [bundler][] to install gems
 
