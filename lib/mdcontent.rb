@@ -31,9 +31,13 @@ class MdContent < Content
     markdown.render @plain_content
   end
 
-  def excerpt striphtml = false
-    truncate = HTML_Truncator.truncate content, 30
-    truncate.gsub!(/<[^>]+>/, '') if striphtml
+  def excerpt striphtml = false, length = 30, ellipsis = "…"
+    truncate = HTML_Truncator.truncate content, length, :ellipsis => ellipsis
+    if striphtml
+      truncate.gsub!(/<[^>]+>/, '')
+    else
+      truncate.gsub!(/<\/?img[^>]*>/, '')
+    end
     return truncate
   end
 
