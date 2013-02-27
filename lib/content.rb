@@ -99,6 +99,10 @@ class Content
     hamlContent.to_html self
   end
 
+  def spanify str
+    str.gsub(/./) {|c| "<span>#{c}</span>"}
+  end
+
   protected
   def valid?
     false
