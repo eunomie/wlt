@@ -28,7 +28,11 @@ class MdContent < Content
 
   def content
     markdown = Redcarpet::Markdown.new(HTMLwithPygments, :with_toc_data => true, :fenced_code_blocks => true, :strikethrough => true, :autolink => true, :no_intra_emphasis => true, :tables => true)
-    markdown.render @plain_content
+    src = @plain_content
+    if useDefaultLinks?
+      src += @contents.defaultLinks
+    end
+    markdown.render src
   end
 
   def excerpt striphtml = false, length = 30, ellipsis = "…"
@@ -78,6 +82,14 @@ class MdContent < Content
 
   def valid?
     @name =~ MATCHER
+  end
+
+  def useDefaultLinks?
+    if @datas.has_key? 'nolinks'
+      @datas['nolinks'] == 'true'
+    else
+      true
+    end
   end
 
 end

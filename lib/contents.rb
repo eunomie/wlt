@@ -65,6 +65,7 @@ class Contents < ContentAccess
     @all = Array.new
     @tags = Hash.new
     @urls = Array.new
+    @defaultLinks = if File.exists? "links.md" then "\n" + File.open("links.md", "r:utf-8").read else "" end
   end
 
   def generate all
@@ -141,5 +142,9 @@ class Contents < ContentAccess
 
   def urls
     @urls
+  end
+
+  def defaultLinks
+    @defaultLinks
   end
 end
