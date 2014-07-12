@@ -11,10 +11,10 @@
         %header
           %h1.icon-tags
             All articles tagged
-            %em= @contents.tag
+            %em= @contents.post_tags
 
         %ul.post-list
-          - posts = @contents.list_by_date
+          - posts = @contents.list_posts_by_date
           - posts.keys.sort.reverse.each do |year|
             - year_posts = posts[year]
             %li

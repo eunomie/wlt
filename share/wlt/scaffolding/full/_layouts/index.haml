@@ -12,7 +12,7 @@
 
         %ul.post-list
           - if @scope.limit > 0
-            - posts = @contents.list_lasts(@scope.limit)
+            - posts = @contents.list_lasts_posts(@scope.limit)
             - posts.each do |post|
               %li.icon-comments-alt
                 %span.date
@@ -25,7 +25,7 @@
                 - else
                   %blockquote= post.excerpt(true)
           - else
-            - posts = @contents.list_by_date
+            - posts = @contents.list_posts_by_date
             - posts.keys.sort.reverse.each do |year|
               - year_posts = posts[year]
               %li

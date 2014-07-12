@@ -20,7 +20,7 @@ layout: master
       %ul.tags
         - tags.each do |tag|
           %li
-            %a.icon-tag{:href => link_to("tags/#{tag}")}
+            %a.icon-tag{:href => link_to("tags/posts/#{tag}")}
               = tag
 
     - if @scope.comments?

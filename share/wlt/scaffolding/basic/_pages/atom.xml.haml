@@ -7,7 +7,7 @@
   %id= link_to
   %author
     %name= @contents.config["name"]
-  - @contents.list_lasts(5).each do |post|
+  - @contents.list_lasts_posts(5).each do |post|
     %entry
       %title= post.title
       %link{:href => link_to(post.url)}
