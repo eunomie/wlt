@@ -1,0 +1,62 @@
+---
+layout: master
+---
+
+%article
+  %header
+    %h1= @scope.title
+
+    %h4
+      Par
+      = @scope.author
+      - if @contents.account? "twitter"
+        %a.icon-twitter-sign.color.alone(href="#{@contents.account "twitter"}")
+      - if @contents.account? "gplus"
+        %a.icon-google-plus-sign.color.alone(href="#{@contents.account "gplus"}?rel=author")
+      , le
+      = @scope.formated_date
+      dans
+
+      %ul.tags
+        - tags.each do |tag|
+          %li
+            %a.icon-tag{:href => link_to("tags/galleries/#{tag}")}
+              = tag
+
+    - if @scope.comments?
+      %h5
+        %a(href="#comments")
+          = "(#{@scope.comments.size} commentaire#{if @scope.comments.size > 1 then "s" end})"
+
+  %ul.gallery#slider
+    - @scope.pictures.each do |picture|
+      %li
+        %a{:href => picture, :rel => "nofollow"}
+          %img.pola{:src => picture, :alt => picture}
+
+    - if @scope.gravatar?
+      %img.pola{:src => @scope.gravatar, :alt => @scope.author}
+
+  %div(itemprop="articleBody")
+    = content
+
+  - if @scope.comments?
+    %h2
+      %a#comments
+        Commentaires
+    - @scope.comments.each do |comment|
+      %article
+        %header
+          %h3= comment.title
+          %h4
+            Par
+            %a{:href => comment.website, :rel => "nofollow"}
+              = comment.author
+            , le
+            = comment.date
+
+          = comment.content
+
+  %footer
+    = render :partial => "twitter_share_account"
+    = render :partial => "gplus_share"
