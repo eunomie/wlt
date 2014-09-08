@@ -13,7 +13,7 @@ class PostContent < MdContent
       "month" => @date.strftime("%m"),
       "day"   => @date.strftime("%d"),
       "title" => CGI.escape(@slug)
-    }.inject(":year/:month/:day/:title.html") { |result, token|
+    }.inject("posts/:year/:month/:day/:title.html") { |result, token|
       result.gsub(/:#{Regexp.escape token.first}/, token.last)
     }.gsub(/\/\//, "/")
   end

@@ -11,7 +11,7 @@
         %header
           %h1.icon-tags
             All articles tagged
-            %em= @contents.post_tags
+            %em= @contents.tag
 
         %ul.post-list
           - posts = @contents.list_posts_by_date

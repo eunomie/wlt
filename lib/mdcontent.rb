@@ -47,7 +47,7 @@ class MdContent < Content
 
   def to_html
     if layout?
-      hamlContent = HamlContent.new File.join("_layouts", "#{layout}.haml"), @contents
+      hamlContent = HamlContent.new File.join("_layouts", "#{layout}.haml"), @contents, @post_tags, @gallery_tags
       return hamlContent.to_html self
     end
     content

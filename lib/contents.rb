@@ -82,12 +82,8 @@ class TagContents < ContentAccess
     @tag = tag
   end
 
-  def post_tags
-    @post_tags
-  end
-  
-  def gallery_tags
-    @gallery_tags
+  def tag
+    @tag
   end
 end
 
@@ -147,7 +143,7 @@ class Contents < ContentAccess
 
     puts "Pages"
     Dir.glob(File.join("_pages", MdContent.glob)).sort!.each do |name|
-      content = MdContent.new name, self
+      content = MdContent.new name, self, @post_tags, @gallery_tags
       print "  #{name}"
       if content.published || all
         puts ""

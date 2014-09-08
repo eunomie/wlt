@@ -4,7 +4,7 @@ require 'digest/md5'
 require "comment.rb"
 
 class Content
-  def initialize(name, contents)
+  def initialize(name, contents, post_tags=nil, gallery_tags=nil)
     @name = name
     @contents = contents
     @plain_content = ""
@@ -16,6 +16,8 @@ class Content
     @locals = {}
     @url = ""
     @comments = []
+    @post_tags = post_tags
+    @gallery_tags = gallery_tags
 
     read
     read_comments
@@ -27,6 +29,14 @@ class Content
     "#{@contents.config["site_url"]}/#{path}"
   end
 
+  def post_tags
+    @post_tags
+  end
+  
+  def gallery_tags
+    @gallery_tags
+  end
+  
   def url= url
     @url = url
   end
