@@ -37,19 +37,26 @@ class Wlt
 
     puts "Css".blue
     cssconf.each do |cssname|
-      syntax = :sass
-      application_css = File.join "_css", "#{cssname}.sass"
-      unless File.exists? application_css
-        syntax = :scss
-        application_css = File.join "_css", "#{cssname}.scss"
-      end
-      next unless File.exists? application_css
-      sassengine = Sass::Engine.for_file(application_css, :syntax => syntax, :style => :compressed)
-      css = sassengine.render
-
-      File.open("_site/#{cssname.split('/').last}.css", "w") { |f| f.write(css) }
+      compile_css cssname
       puts "  #{cssname}"
     end
+  end
+
+  def get_css cssname
+    Dir.glob(File.join("_css", "#{cssname}.*")).first
+  end
+
+  def sass_syntax css
+    File.extname(css).delete('.').to_sym
+  end
+
+  def compile_css cssname
+    cssfile = get_css cssname
+    return if cssfile.nil?
+    sassengine = Sass::Engine.for_file(cssfile, :syntax => sass_syntax(cssfile), :style => :compressed)
+    css = sassengine.render
+
+    File.open("_site/#{cssname.split('/').last}.css", "w") { |f| f.write(css) }
   end
 
   def js
