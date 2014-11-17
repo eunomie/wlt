@@ -1,6 +1,7 @@
 # encoding: utf-8
 require "postcontent.rb"
 require "mdcontent.rb"
+require "colored.rb"
 
 class ContentAccess
   def config
@@ -47,14 +48,28 @@ class ContentAccess
 end
 
 class TagContents < ContentAccess
-  def initialize config, elements, tag
+  def initialize config, elements, tag, tagFile
     @config = config
     @all = elements
     @tag = tag
+    @tagFile = tagFile
+    @url = "tags/#{@tag}.html"
   end
 
   def tag
     @tag
+  end
+
+  def url
+    @url
+  end
+
+  def write_to_site
+    outFile = File.join "_site", "tags", "#{@tag}.html"
+    hamlContent = HamlContent.new @tagFile, self
+    hamlContent.url = @url
+    html = hamlContent.to_html hamlContent
+    File.open(outFile, "w") { |f| f.write html }
   end
 end
 
@@ -62,6 +77,10 @@ class Contents < ContentAccess
   def initialize config
     @config = config
     @files = Dir.glob(File.join("_posts", MdContent.glob)).sort
+    @pages = Dir.glob(File.join("_pages", MdContent.glob)).sort
+    @tagFile = File.join "_layouts", "tags.haml"
+    @atomFile = File.join "_pages", "atom.xml.haml"
+    @sitemapFile = File.join "_pages", "sitemap.xml.haml"
     @all = Array.new
     @tags = Hash.new
     @urls = Array.new
@@ -69,75 +88,11 @@ class Contents < ContentAccess
   end
 
   def generate all
-    puts "Posts"
-    @files.each do |name|
-      content = PostContent.new name, self
-      print "  #{name}"
-      if content.published || all
-        puts ""
-        content.tags.each do |tag|
-          if !@tags.has_key? tag
-            @tags[tag] = Array.new
-          end
-          @tags[tag].push content
-        end
-        content.write_to_site
-        @all.push content
-        @urls.push content.url
-      else
-        puts "\t\t\t[[skipped]]"
-      end
-    end
-
-    puts "Pages"
-    Dir.glob(File.join("_pages", MdContent.glob)).sort!.each do |name|
-      content = MdContent.new name, self
-      print "  #{name}"
-      if content.published || all
-        puts ""
-        content.write_to_site
-        @urls.push content.url
-      else
-        puts "\t\t\t[[skipped]]"
-      end
-    end
-
-    tagFile = File.join "_layouts", "tags.haml"
-    if File.exists? tagFile
-      puts "Tags"
-      FileUtils.mkdir_p File.join "_site", "tags"
-      @tags.each do |tag, contents|
-        puts "  #{tag}"
-        outFile = File.join "_site", "tags", "#{tag}.html"
-        scope = TagContents.new @config, contents, tag
-        hamlContent = HamlContent.new tagFile, scope
-        hamlContent.url = "tags/#{tag}.html"
-        html = hamlContent.to_html hamlContent
-        File.open(outFile, "w") { |f| f.write html }
-        @urls.push hamlContent.url
-      end
-    end
-
-    atomFile = File.join "_pages", "atom.xml.haml"
-    if File.exists? atomFile
-      puts "Atom"
-      hamlContent = HamlContent.new atomFile, self
-      atom = hamlContent.to_html hamlContent
-      hamlContent.url = "atom.xml"
-      outFile = File.join "_site", "atom.xml"
-      File.open(outFile, "w") { |f| f.write atom }
-      @urls.push hamlContent.url
-    end
-
-    sitemapFile = File.join "_pages", "sitemap.xml.haml"
-    if File.exists? sitemapFile
-      puts "Sitemap"
-      @urls.push "sitemap.xml"
-      hamlContent = HamlContent.new sitemapFile, self
-      sitemap = hamlContent.to_html hamlContent
-      outFile = File.join "_site", "sitemap.xml"
-      File.open(outFile, "w") { |f| f.write sitemap }
-    end
+    generate_posts all
+    generate_pages
+    generate_tags
+    generate_atom
+    generate_sitemap
   end
 
   def urls
@@ -146,5 +101,82 @@ class Contents < ContentAccess
 
   def defaultLinks
     @defaultLinks
+  end
+
+  private
+  def generate_posts all
+    puts "Posts".blue
+    @files.each do |name|
+      content = PostContent.new name, self
+      str = "  #{name}"
+      if content.published || all
+        add_tags content
+        content.write_to_site
+        @all.push content
+        @urls.push content.url
+      else
+        str += "\t\t\t[[skipped]]"
+        str = str.pink
+      end
+      puts str
+    end
+  end
+
+  def generate_pages
+    puts "Pages".blue
+    @pages.each do |name|
+      content = MdContent.new name, self
+      str = "  #{name}"
+      if content.published || all
+        content.write_to_site
+        @urls.push content.url
+      else
+        str += "\t\t\t[[skipped]]"
+        str = str.pink
+      end
+      puts str
+    end
+  end
+
+  def generate_tags
+    return unless File.exists? @tagFile
+    puts "Tags".blue
+    FileUtils.mkdir_p File.join "_site", "tags"
+    @tags.each do |tag, contents|
+      puts "  #{tag}"
+      content = TagContents.new @config, contents, tag, @tagFile
+      content.write_to_site
+      @urls.push content.url
+    end
+  end
+
+  def generate_atom
+    return unless File.exists? @atomFile
+    puts "Atom".blue
+    hamlContent = HamlContent.new @atomFile, self
+    atom = hamlContent.to_html hamlContent
+    hamlContent.url = "atom.xml"
+    outFile = File.join "_site", "atom.xml"
+    File.open(outFile, "w") { |f| f.write atom }
+    @urls.push hamlContent.url
+  end
+
+  def generate_sitemap
+    return unless File.exists? @sitemapFile
+    puts "Sitemap".blue
+    @urls.push "sitemap.xml"
+    hamlContent = HamlContent.new @sitemapFile, self
+    sitemap = hamlContent.to_html hamlContent
+    outFile = File.join "_site", "sitemap.xml"
+    File.open(outFile, "w") { |f| f.write sitemap }
+  end
+
+  def add_tags content
+    content.tags.each do |tag|
+      if !@tags.has_key? tag
+        @tags[tag] = Array.new
+      end
+      @tags[tag].push content
+    end
   end
 end

@@ -6,6 +6,7 @@ require 'coffee-script'
 
 
 require "contents.rb"
+require "colored.rb"
 
 class Wlt
   def initialize local = false
@@ -34,7 +35,7 @@ class Wlt
     cssconf = @config["assets"]["css"]
     return unless cssconf.kind_of? Array
 
-    puts "Css"
+    puts "Css".blue
     cssconf.each do |cssname|
       syntax = :sass
       application_css = File.join "_css", "#{cssname}.sass"
@@ -57,7 +58,7 @@ class Wlt
     jsconf = @config["assets"]["js"]
     return unless jsconf.kind_of? Array
 
-    puts "Js"
+    puts "Js".blue
     jsconf.each do |jsname|
       application_js = File.join "_js", "#{jsname}.coffee"
       next unless File.exists? application_js
@@ -69,7 +70,7 @@ class Wlt
 
   def pub
     FileUtils.cp_r File.join('_pub', '.') , '_site'
-    puts "Pub"
+    puts "Pub".blue
   end
 
   def contents all
