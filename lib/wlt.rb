@@ -36,12 +36,17 @@ class Wlt
 
     puts "Css"
     cssconf.each do |cssname|
+      syntax = :sass
       application_css = File.join "_css", "#{cssname}.sass"
+      unless File.exists? application_css
+        syntax = :scss
+        application_css = File.join "_css", "#{cssname}.scss"
+      end
       next unless File.exists? application_css
-      sassengine = Sass::Engine.for_file(application_css, :syntax => :sass, :style => :compressed)
+      sassengine = Sass::Engine.for_file(application_css, :syntax => syntax, :style => :compressed)
       css = sassengine.render
 
-      File.open("_site/#{cssname}.css", "w") { |f| f.write(css) }
+      File.open("_site/#{cssname.split('/').last}.css", "w") { |f| f.write(css) }
       puts "  #{cssname}"
     end
   end
