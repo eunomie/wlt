@@ -2,6 +2,7 @@
 require "postcontent.rb"
 require "mdcontent.rb"
 require "colored.rb"
+require 'logging'
 
 class ContentAccess
   def config
@@ -74,6 +75,8 @@ class TagContents < ContentAccess
 end
 
 class Contents < ContentAccess
+  include Logging
+
   def initialize config
     @config = config
     @files = Dir.glob(File.join("_posts", MdContent.glob)).sort
@@ -105,7 +108,7 @@ class Contents < ContentAccess
 
   private
   def generate_posts all
-    puts "Posts".blue
+    logger.info "Posts".blue
     @files.each do |name|
       content = PostContent.new name, self
       str = "  #{name}"
@@ -118,12 +121,12 @@ class Contents < ContentAccess
         str += "\t\t\t[[skipped]]"
         str = str.pink
       end
-      puts str
+      logger.info str
     end
   end
 
   def generate_pages
-    puts "Pages".blue
+    logger.info "Pages".blue
     @pages.each do |name|
       content = MdContent.new name, self
       str = "  #{name}"
@@ -134,16 +137,16 @@ class Contents < ContentAccess
         str += "\t\t\t[[skipped]]"
         str = str.pink
       end
-      puts str
+      logger.info str
     end
   end
 
   def generate_tags
     return unless File.exists? @tagFile
-    puts "Tags".blue
+    logger.info "Tags".blue
     FileUtils.mkdir_p File.join "_site", "tags"
     @tags.each do |tag, contents|
-      puts "  #{tag}"
+      logger.info "  #{tag}"
       content = TagContents.new @config, contents, tag, @tagFile
       content.write_to_site
       @urls.push content.url
@@ -152,7 +155,7 @@ class Contents < ContentAccess
 
   def generate_atom
     return unless File.exists? @atomFile
-    puts "Atom".blue
+    logger.info "Atom".blue
     hamlContent = HamlContent.new @atomFile, self
     atom = hamlContent.to_html hamlContent
     hamlContent.url = "atom.xml"
@@ -163,7 +166,7 @@ class Contents < ContentAccess
 
   def generate_sitemap
     return unless File.exists? @sitemapFile
-    puts "Sitemap".blue
+    logger.info "Sitemap".blue
     @urls.push "sitemap.xml"
     hamlContent = HamlContent.new @sitemapFile, self
     sitemap = hamlContent.to_html hamlContent

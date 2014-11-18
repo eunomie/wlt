@@ -3,12 +3,15 @@ require "yaml"
 require "fileutils"
 require "sass"
 require 'coffee-script'
+require 'logging'
 
 
 require "contents.rb"
 require "colored.rb"
 
 class Wlt
+  include Logging
+
   def initialize local = false
     raise "Not a valid Web Log Today location" unless valid_location?
     @config = YAML.load File.open("config.yaml", "r:utf-8").read
@@ -35,10 +38,10 @@ class Wlt
     cssconf = @config["assets"]["css"]
     return unless cssconf.kind_of? Array
 
-    puts "Css".blue
+    logger.info "Css".blue
     cssconf.each do |cssname|
       compile_css cssname
-      puts "  #{cssname}"
+      logger.info "  #{cssname}"
     end
   end
 
@@ -65,19 +68,19 @@ class Wlt
     jsconf = @config["assets"]["js"]
     return unless jsconf.kind_of? Array
 
-    puts "Js".blue
+    logger.info "Js".blue
     jsconf.each do |jsname|
       application_js = File.join "_js", "#{jsname}.coffee"
       next unless File.exists? application_js
       js = CoffeeScript.compile File.open(application_js, "r:utf-8").read
       File.open("_site/#{jsname}.js", "w") { |f| f.write(js) }
-      puts "  #{jsname}"
+      logger.info "  #{jsname}"
     end
   end
 
   def pub
     FileUtils.cp_r File.join('_pub', '.') , '_site'
-    puts "Pub".blue
+    logger.info "Pub".blue
   end
 
   def contents all

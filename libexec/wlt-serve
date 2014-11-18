@@ -13,6 +13,10 @@ require 'serve/application'
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__),'..', *%w[lib]))
 
 require "wlt.rb"
+require 'logging'
+Logging.logger.formatter = proc do |severity, datetime, progname, msg|
+  "#{msg}\n"
+end
 
 all = ARGV[0] == "all"
 
